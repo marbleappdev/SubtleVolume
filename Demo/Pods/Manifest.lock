@@ -1,0 +1,14 @@
+PODS:
+  - SubtleVolume (0.0.1)
+
+DEPENDENCIES:
+  - SubtleVolume (from `../`)
+
+EXTERNAL SOURCES:
+  SubtleVolume:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SubtleVolume: a2067c98cd6a4a814e9581e73e364ff8192c9ec3
+
+COCOAPODS: 0.39.0
