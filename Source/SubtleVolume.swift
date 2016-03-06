@@ -30,7 +30,11 @@ public protocol SubtleVolumeDelegate {
 public class SubtleVolume: UIView {
 
   public var style = SubtleVolumeStyle.Plain
-  public var animation = SubtleVolumeAnimation.FadeIn
+  public var animation = SubtleVolumeAnimation.FadeIn {
+    didSet {
+      updateVolume(volumeLevel, animated: false)
+    }
+  }
 
   public var barBackgroundColor = UIColor.clearColor() {
     didSet {
@@ -71,7 +75,7 @@ public class SubtleVolume: UIView {
 
   private func setup() {
     try! AVAudioSession.sharedInstance().setActive(true)
-    volumeLevel = AVAudioSession.sharedInstance().outputVolume
+    updateVolume(AVAudioSession.sharedInstance().outputVolume, animated: false)
     AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: .New, context: nil)
 
     backgroundColor = .clearColor()
@@ -88,7 +92,8 @@ public class SubtleVolume: UIView {
   }
 
   public override func layoutSubviews() {
-    updateVolume(volumeLevel, animated: false)
+    super.layoutSubviews()
+
     overlay.frame = frame
     overlay.frame.size.width = frame.size.width * CGFloat(volumeLevel)
     overlay.layer.cornerRadius = frame.size.height / 2
@@ -102,13 +107,15 @@ public class SubtleVolume: UIView {
       self.overlay.frame.size.width = self.frame.size.width * CGFloat(self.volumeLevel)
     }
 
-    UIView.animateKeyframesWithDuration(2, delay: 0, options: .BeginFromCurrentState, animations: { () -> Void in
+    UIView.animateKeyframesWithDuration(animated ? 2 : 0, delay: 0, options: .BeginFromCurrentState, animations: { () -> Void in
       UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.2, animations: {
         switch self.animation {
         case .None: break
         case .FadeIn:
-            self.alpha = 1
-        case .SlideDown: break
+          self.alpha = 1
+        case .SlideDown:
+          self.alpha = 1
+          self.transform = CGAffineTransformIdentity
         }
       })
 
@@ -117,7 +124,9 @@ public class SubtleVolume: UIView {
         case .None: break
         case .FadeIn:
           self.alpha = 0.0001
-        case .SlideDown: break
+        case .SlideDown:
+          self.alpha = 0.0001
+          self.transform = CGAffineTransformMakeTranslation(0, -self.frame.height)
         }
       })
 

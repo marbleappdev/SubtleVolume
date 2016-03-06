@@ -11,13 +11,13 @@ import SubtleVolume
 
 class ViewController: UIViewController {
 
-    var volume = SubtleVolume()
+  var volume = SubtleVolume()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-        volume.frame = CGRect(x: 8, y: 40, width: view.frame.size.width - 16, height: 10)
-        view.addSubview(volume)
-    }
-    
+    volume.frame = CGRect(x: 8, y: 40, width: view.frame.size.width - 16, height: 10)
+    view.addSubview(volume)
+  }
+
 }
