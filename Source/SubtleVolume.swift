@@ -10,27 +10,73 @@ import UIKit
 import MediaPlayer
 import AVFoundation
 
+/**
+  The style of the volume indicator
+
+ - Plain: A plain bar
+ - RoundedLine: A plain bar with rounded corners
+ - Dashes: A bar divided in dashes
+ - Dots: A bar composed by a line of dots
+ */
 public enum SubtleVolumeStyle {
   case Plain
+  case RoundedLine
   case Dashes
   case Dots
 }
 
+/**
+ The entry and exit animation of the volume indicator
+
+ - None: The indicator is always visible
+ - SlideDown: The indicator fades in/out and slides from/to the top into position
+ - FadeIn: The indicator fades in and out
+ */
 public enum SubtleVolumeAnimation {
   case None
   case SlideDown
   case FadeIn
 }
 
+/**
+ Delegate protocol fo `SubtleVolume`. 
+ Notifies the delegate when a change is about to happen (before the entry animation)
+ and when a change occurred (and the exit animation is complete)
+ */
 public protocol SubtleVolumeDelegate {
+  /**
+   The volume is about to change. This is fired before performing any entry animation
+
+   - parameter subtleVolume: The current instance of `SubtleVolume`
+   - parameter value: The value of the volume (between 0 an 1.0)
+   */
   func subtleVolume(subtleVolume: SubtleVolume, willChange value: Float)
+
+  /**
+   The volume did change. This is fired after the exit animation is done
+
+   - parameter subtleVolume: The current instance of `SubtleVolume`
+   - parameter value: The value of the volume (between 0 an 1.0)
+   */
   func subtleVolume(subtleVolume: SubtleVolume, didChange value: Float)
 }
 
+/**
+ Replace the system volume popup with a more subtle way to display the volume 
+ when the user changes it with the volume rocker.
+*/
 public class SubtleVolume: UIView {
 
+  /**
+   The style of the volume indicator
+   */
   public var style = SubtleVolumeStyle.Plain
-  public var animation = SubtleVolumeAnimation.FadeIn {
+
+  /**
+   The entry and exit animation of the indicator. The animation is triggered by the volume
+   If the animation is set to `.None`, the volume indicator is always visible
+   */
+  public var animation = SubtleVolumeAnimation.None {
     didSet {
       updateVolume(volumeLevel, animated: false)
     }
@@ -54,13 +100,14 @@ public class SubtleVolume: UIView {
   private let overlay = UIView()
   private var volumeLevel = Float(0)
 
-  convenience public init(style: SubtleVolumeStyle) {
-    self.init(frame: CGRect.zero)
+  convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
+    self.init(frame: frame)
+    self.style = style
+    setup()
   }
 
-  required public init() {
-    super.init(frame: CGRect.zero)
-    setup()
+  convenience public init(style: SubtleVolumeStyle) {
+    self.init(style: style, frame: CGRect.zero)
   }
 
   required public init?(coder aDecoder: NSCoder) {
@@ -68,13 +115,21 @@ public class SubtleVolume: UIView {
     setup()
   }
 
-  required override public init(frame: CGRect) {
+  required public override init(frame: CGRect) {
     super.init(frame: frame)
     setup()
   }
 
+  required public init() {
+    fatalError("Please use the convenience initializers instead")
+  }
+
   private func setup() {
-    try! AVAudioSession.sharedInstance().setActive(true)
+    do {
+      try AVAudioSession.sharedInstance().setActive(true)
+    } catch {
+      print("Unable to initialize AVAudioSession")
+    }
     updateVolume(AVAudioSession.sharedInstance().outputVolume, animated: false)
     AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: .New, context: nil)
 
@@ -96,7 +151,6 @@ public class SubtleVolume: UIView {
 
     overlay.frame = frame
     overlay.frame.size.width = frame.size.width * CGFloat(volumeLevel)
-    overlay.layer.cornerRadius = frame.size.height / 2
   }
 
   private func updateVolume(value: Float, animated: Bool) {

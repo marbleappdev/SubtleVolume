@@ -11,12 +11,14 @@ import SubtleVolume
 
 class ViewController: UIViewController {
 
-  var volume = SubtleVolume()
+  var volume = SubtleVolume(style: SubtleVolumeStyle.Plain)
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    volume.frame = CGRect(x: 8, y: 40, width: view.frame.size.width - 16, height: 10)
+    volume.frame = CGRect(x: 0, y: 10, width: view.frame.size.width, height: 4)
+    volume.barTintColor = .redColor()
+    volume.animation = .SlideDown
     view.addSubview(volume)
   }
 
