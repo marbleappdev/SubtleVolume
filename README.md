@@ -6,6 +6,10 @@
 
 Replace the volume popup with a more subtle way to display the volume when the user changes it with the volume rocker.
 
+<p align="center">
+  <img width="420" height="240" src="assets/screenshot.png"/>
+</p>
+
 #Why and how
 The iOS default popover showing the volume status that appears when the user clicks the volume rocker is a big obtrusive glossy view that covers the content shown. This library offers a way to show a more subtle indicator.  
 To make sure that the popover is not shown there are two conditions that need to be satisfied:  

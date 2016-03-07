@@ -16,9 +16,10 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    volume.frame = CGRect(x: 0, y: 10, width: view.frame.size.width, height: 4)
-    volume.barTintColor = .redColor()
-    volume.animation = .SlideDown
+    volume.frame = CGRect(x: 0, y: 20, width: view.frame.size.width, height: 4)
+    volume.barTintColor = .whiteColor()
+    volume.barBackgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.3)
+    volume.animation = .FadeIn
     view.addSubview(volume)
   }
 

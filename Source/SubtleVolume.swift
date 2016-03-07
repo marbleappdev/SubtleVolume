@@ -150,7 +150,7 @@ public class SubtleVolume: UIView {
     super.layoutSubviews()
 
     overlay.frame = frame
-    overlay.frame.size.width = frame.size.width * CGFloat(volumeLevel)
+    overlay.frame = CGRect(x: 0, y: 0, width: frame.size.width * CGFloat(volumeLevel), height: frame.size.height)
   }
 
   private func updateVolume(value: Float, animated: Bool) {
