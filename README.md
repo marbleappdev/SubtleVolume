@@ -42,11 +42,10 @@ view.addSubview(volume)
 ```
 
 #WIP
-This is currently in development and more of a proof of concept than anything else, feedback is really welcome. 
+This is currently in development, feedback is really welcome. 
 
 #TODO
 - [ ] implement styles
-- [ ] implement animations
 - [ ] provide better samples
 - [ ] add test coverage
 
