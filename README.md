@@ -4,6 +4,7 @@
 
 [![CocoaPods](https://cocoapod-badges.herokuapp.com/v/SubtleVolume/badge.svg)](http://cocoapods.org/?q=subtlevolume)
 ![Swift 2.0](https://img.shields.io/badge/swift-2.0-orange.svg)
+[![codebeat](https://codebeat.co/badges/4bc9d591-39a9-4f3f-a6cd-775c68568368)](https://codebeat.co/projects/github-com-andreamazz-subtlevolume)
 
 Replace the volume popup with a more subtle way to display the volume when the user changes it with the volume rocker.
 
