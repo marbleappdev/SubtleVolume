@@ -22,7 +22,7 @@ Once a `SubtleVolume` is added to your view, an audio session is automatically s
 #Getting Started
 Create an instance of `SubtleVolume` with one of its convenience initializers, and set its position (you can either set the frame or let autolayout handle it):
 ```swift
-var volume = SubtleVolume(style: SubtleVolumeStyle.Plain)
+let volume = SubtleVolume(style: .Plain)
 volume.frame = CGRect(x: 0, y: 10, width: view.frame.size.width, height: 4)
 ```
 
