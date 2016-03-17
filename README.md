@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="420" height="240" src="assets/logo.png"/>
+  <img width="420" src="assets/logo.png"/>
 </p>
 
 [![CocoaPods](https://cocoapod-badges.herokuapp.com/v/SubtleVolume/badge.svg)](http://cocoapods.org/?q=subtlevolume)
@@ -10,7 +10,7 @@
 Replace the volume popup with a more subtle way to display the volume when the user changes it with the volume rocker.
 
 <p align="center">
-  <img width="640" height="480" src="assets/screenshot.png"/>
+  <img width="640" src="assets/screenshot.png"/>
 </p>
 
 #Why and how
