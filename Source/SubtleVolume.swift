@@ -195,4 +195,8 @@ public class SubtleVolume: UIView {
     updateVolume(value, animated: true)
   }
 
+  deinit {
+    AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume", context: nil)
+  }
+
 }
