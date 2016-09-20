@@ -4,7 +4,7 @@
 
 [![CocoaPods](https://cocoapod-badges.herokuapp.com/v/SubtleVolume/badge.svg)](http://cocoapods.org/?q=subtlevolume)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-![Swift 2.0](https://img.shields.io/badge/swift-2.0-orange.svg)
+![Swift 3.0](https://img.shields.io/badge/swift-3.0-orange.svg)
 [![codebeat](https://codebeat.co/badges/4bc9d591-39a9-4f3f-a6cd-775c68568368)](https://codebeat.co/projects/github-com-andreamazz-subtlevolume)
 
 Replace the volume popup with a more subtle way to display the volume when the user changes it with the volume rocker.
@@ -24,18 +24,18 @@ Once a `SubtleVolume` is added to your view, an audio session is automatically s
 #Getting Started
 Create an instance of `SubtleVolume` with one of its convenience initializers, and set its position (you can either set the frame or let autolayout handle it):
 ```swift
-let volume = SubtleVolume(style: .Plain)
+let volume = SubtleVolume(style: .plain)
 volume.frame = CGRect(x: 0, y: 10, width: view.frame.size.width, height: 4)
 ```
 
 Set the barTintColor property:
 ```swift
-volume.barTintColor = .redColor()
+volume.barTintColor = .red
 ```
 
 Set the animation type if needed (no animation will result in the indicator being always visible):
 ```swift
-volume.animation = .SlideDown
+volume.animation = .slideDown
 ```
 
 Add the view to your hierarchy:

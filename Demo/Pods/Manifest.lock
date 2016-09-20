@@ -1,5 +1,5 @@
 PODS:
-  - SubtleVolume (0.0.1)
+  - SubtleVolume (0.1.1)
 
 DEPENDENCIES:
   - SubtleVolume (from `../`)
@@ -9,6 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SubtleVolume: a2067c98cd6a4a814e9581e73e364ff8192c9ec3
+  SubtleVolume: 51fb872b4b10d69eba7c6b9ba5b8237908ba157e
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 225ff7beebfd5bf4f20f8057415fc20377a0b296
+
+COCOAPODS: 1.1.0.rc.2

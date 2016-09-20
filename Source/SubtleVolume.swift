@@ -19,10 +19,10 @@ import AVFoundation
  - Dots: A bar composed by a line of dots
  */
 public enum SubtleVolumeStyle {
-  case Plain
-  case RoundedLine
-  case Dashes
-  case Dots
+  case plain
+  case roundedLine
+  case dashes
+  case dots
 }
 
 /**
@@ -33,9 +33,9 @@ public enum SubtleVolumeStyle {
  - FadeIn: The indicator fades in and out
  */
 public enum SubtleVolumeAnimation {
-  case None
-  case SlideDown
-  case FadeIn
+  case none
+  case slideDown
+  case fadeIn
 }
 
 /**
@@ -50,7 +50,7 @@ public protocol SubtleVolumeDelegate {
    - parameter subtleVolume: The current instance of `SubtleVolume`
    - parameter value: The value of the volume (between 0 an 1.0)
    */
-  func subtleVolume(subtleVolume: SubtleVolume, willChange value: Float)
+  func subtleVolume(_ subtleVolume: SubtleVolume, willChange value: Float)
 
   /**
    The volume did change. This is fired after the exit animation is done
@@ -58,47 +58,47 @@ public protocol SubtleVolumeDelegate {
    - parameter subtleVolume: The current instance of `SubtleVolume`
    - parameter value: The value of the volume (between 0 an 1.0)
    */
-  func subtleVolume(subtleVolume: SubtleVolume, didChange value: Float)
+  func subtleVolume(_ subtleVolume: SubtleVolume, didChange value: Float)
 }
 
 /**
  Replace the system volume popup with a more subtle way to display the volume 
  when the user changes it with the volume rocker.
 */
-public class SubtleVolume: UIView {
+open class SubtleVolume: UIView {
 
   /**
    The style of the volume indicator
    */
-  public var style = SubtleVolumeStyle.Plain
+  open var style = SubtleVolumeStyle.plain
 
   /**
    The entry and exit animation of the indicator. The animation is triggered by the volume
    If the animation is set to `.None`, the volume indicator is always visible
    */
-  public var animation = SubtleVolumeAnimation.None {
+  open var animation = SubtleVolumeAnimation.none {
     didSet {
       updateVolume(volumeLevel, animated: false)
     }
   }
 
-  public var barBackgroundColor = UIColor.clearColor() {
+  open var barBackgroundColor = UIColor.clear {
     didSet {
       backgroundColor = barBackgroundColor
     }
   }
 
-  public var barTintColor = UIColor.whiteColor() {
+  open var barTintColor = UIColor.white {
     didSet {
       overlay.backgroundColor = barTintColor
     }
   }
 
-  public var delegate: SubtleVolumeDelegate?
+  open var delegate: SubtleVolumeDelegate?
 
-  private let volume = MPVolumeView(frame: CGRect.zero)
-  private let overlay = UIView()
-  private var volumeLevel = Float(0)
+  fileprivate let volume = MPVolumeView(frame: CGRect.zero)
+  fileprivate let overlay = UIView()
+  fileprivate var volumeLevel = Float(0)
 
   convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
     self.init(frame: frame)
@@ -124,63 +124,63 @@ public class SubtleVolume: UIView {
     fatalError("Please use the convenience initializers instead")
   }
 
-  private func setup() {
+  fileprivate func setup() {
     do {
       try AVAudioSession.sharedInstance().setActive(true)
     } catch {
       print("Unable to initialize AVAudioSession")
     }
     updateVolume(AVAudioSession.sharedInstance().outputVolume, animated: false)
-    AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: .New, context: nil)
+    AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
 
-    backgroundColor = .clearColor()
+    backgroundColor = .clear
 
-    volume.setVolumeThumbImage(UIImage(), forState: .Normal)
-    volume.userInteractionEnabled = false
+    volume.setVolumeThumbImage(UIImage(), for: UIControlState())
+    volume.isUserInteractionEnabled = false
     volume.alpha = 0.0001
     volume.showsRouteButton = false
 
     addSubview(volume)
 
-    overlay.backgroundColor = .blackColor()
+    overlay.backgroundColor = .black
     addSubview(overlay)
   }
 
-  public override func layoutSubviews() {
+  open override func layoutSubviews() {
     super.layoutSubviews()
 
     overlay.frame = frame
     overlay.frame = CGRect(x: 0, y: 0, width: frame.size.width * CGFloat(volumeLevel), height: frame.size.height)
   }
 
-  private func updateVolume(value: Float, animated: Bool) {
+  fileprivate func updateVolume(_ value: Float, animated: Bool) {
     delegate?.subtleVolume(self, willChange: value)
     volumeLevel = value
 
-    UIView.animateWithDuration(animated ? 0.1 : 0) { () -> Void in
+    UIView.animate(withDuration: animated ? 0.1 : 0, animations: { () -> Void in
       self.overlay.frame.size.width = self.frame.size.width * CGFloat(self.volumeLevel)
-    }
+    }) 
 
-    UIView.animateKeyframesWithDuration(animated ? 2 : 0, delay: 0, options: .BeginFromCurrentState, animations: { () -> Void in
-      UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.2, animations: {
+    UIView.animateKeyframes(withDuration: animated ? 2 : 0, delay: 0, options: .beginFromCurrentState, animations: { () -> Void in
+      UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.2, animations: {
         switch self.animation {
-        case .None: break
-        case .FadeIn:
+        case .none: break
+        case .fadeIn:
           self.alpha = 1
-        case .SlideDown:
+        case .slideDown:
           self.alpha = 1
-          self.transform = CGAffineTransformIdentity
+          self.transform = CGAffineTransform.identity
         }
       })
 
-      UIView.addKeyframeWithRelativeStartTime(0.8, relativeDuration: 0.2, animations: { () -> Void in
+      UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.2, animations: { () -> Void in
         switch self.animation {
-        case .None: break
-        case .FadeIn:
+        case .none: break
+        case .fadeIn:
           self.alpha = 0.0001
-        case .SlideDown:
+        case .slideDown:
           self.alpha = 0.0001
-          self.transform = CGAffineTransformMakeTranslation(0, -self.frame.height)
+          self.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
         }
       })
 
@@ -189,8 +189,8 @@ public class SubtleVolume: UIView {
     }
   }
 
-  public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-    guard let change = change, value = change["new"] as? Float where keyPath == "outputVolume" else { return }
+  open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    guard let change = change, let value = change[.newKey] as? Float , keyPath == "outputVolume" else { return }
 
     updateVolume(value, animated: true)
   }

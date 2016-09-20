@@ -1,6 +1,6 @@
 {
   "name": "SubtleVolume",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "license": "MIT",
   "summary": "Replace the system volume popup with a more subtle indicator",
   "description": "Drop in control that shows the system volume when the user changes it with the volume rocker in a more subtle and less obtrusive way.",
@@ -11,7 +11,7 @@
   },
   "source": {
     "git": "https://github.com/andreamazz/SubtleVolume.git",
-    "tag": "0.0.1"
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "8.0"
