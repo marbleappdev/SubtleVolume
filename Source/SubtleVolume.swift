@@ -99,11 +99,11 @@ open class SubtleVolume: UIView {
   fileprivate let volume = MPVolumeView(frame: CGRect.zero)
   fileprivate let overlay = UIView()
   fileprivate var volumeLevel = Float(0)
+  fileprivate let AVAudioSessionOutputVolumeKey = "outputVolume"
 
   convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
     self.init(frame: frame)
     self.style = style
-    setup()
   }
 
   convenience public init(style: SubtleVolumeStyle) {
@@ -131,7 +131,7 @@ open class SubtleVolume: UIView {
       print("Unable to initialize AVAudioSession")
     }
     updateVolume(AVAudioSession.sharedInstance().outputVolume, animated: false)
-    AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
+    AVAudioSession.sharedInstance().addObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, options: .new, context: nil)
 
     backgroundColor = .clear
 
@@ -190,13 +190,13 @@ open class SubtleVolume: UIView {
   }
 
   open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-    guard let change = change, let value = change[.newKey] as? Float , keyPath == "outputVolume" else { return }
+    guard let change = change, let value = change[.newKey] as? Float , keyPath == AVAudioSessionOutputVolumeKey else { return }
 
     updateVolume(value, animated: true)
   }
 
   deinit {
-    AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume", context: nil)
+    AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, context: nil)
   }
 
 }
