@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name = 'SubtleVolume'
-  s.version = '0.2.0'
+  s.version = '0.2.1'
   s.license = 'MIT'
-  s.summary = 'Replace the system volume popup with a more subtle indicator' 
+  s.summary = 'Replace the system volume popup with a more subtle indicator'
   s.description  = <<-DESC
                   Drop in control that shows the system volume when the user changes it with the volume rocker in a more subtle and less obtrusive way.
                    DESC
