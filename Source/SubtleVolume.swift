@@ -39,6 +39,15 @@ public enum SubtleVolumeAnimation {
 }
 
 /**
+ Errors being thrown by `SubtleError`.
+
+ - unableToChangeVolumeLevel: `SubtleVolume` was unable to change audio level
+ */
+public enum SubtleVolumeError: Error {
+  case unableToChangeVolumeLevel
+}
+
+/**
  Delegate protocol fo `SubtleVolume`. 
  Notifies the delegate when a change is about to happen (before the entry animation)
  and when a change occurred (and the exit animation is complete)
@@ -98,7 +107,7 @@ open class SubtleVolume: UIView {
 
   fileprivate let volume = MPVolumeView(frame: CGRect.zero)
   fileprivate let overlay = UIView()
-  fileprivate var volumeLevel = Float(0)
+  public fileprivate(set) var volumeLevel = Float(0)
   fileprivate let AVAudioSessionOutputVolumeKey = "outputVolume"
 
   convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
@@ -122,6 +131,31 @@ open class SubtleVolume: UIView {
 
   required public init() {
     fatalError("Please use the convenience initializers instead")
+  }
+
+  /**
+   Programatically set the volume level.
+
+   - parameter volumeLevel: The new level of volume (between 0 an 1.0)
+   - parameter animated: Indicating whether the change should be animated
+   */
+  public func setVolumeLevel(_ volumeLevel: Float, animated: Bool = false) throws {
+    guard let slider = volume.subviews.flatMap({ $0 as? UISlider }).first else {
+      throw SubtleVolumeError.unableToChangeVolumeLevel
+    }
+
+    // If user opted out of animation, toggle observation for the duration of the change
+    if !animated {
+      AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, context: nil)
+
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
+        guard let `self` = self else { return }
+        AVAudioSession.sharedInstance().addObserver(self, forKeyPath: self.AVAudioSessionOutputVolumeKey, options: .new, context: nil)
+      }
+    }
+
+    // Trick iOS into thinking that slider value has changed
+    slider.value = max(0, min(1, volumeLevel))
   }
 
   fileprivate func setup() {
