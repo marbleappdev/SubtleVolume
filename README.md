@@ -43,6 +43,11 @@ Add the view to your hierarchy:
 view.addSubview(volume)
 ```
 
+To change the volume programatically:
+```swift
+_ = try? volume.setVolumeLevel(0.5)
+```
+
 #WIP
 This is currently in development, feedback is really welcome. 
 
