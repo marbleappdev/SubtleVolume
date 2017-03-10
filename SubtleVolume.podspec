@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'SubtleVolume'
-  s.version = '0.2.1'
+  s.version = '0.3.0'
   s.license = 'MIT'
   s.summary = 'Replace the system volume popup with a more subtle indicator'
   s.description  = <<-DESC
