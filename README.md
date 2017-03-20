@@ -13,7 +13,7 @@ Replace the volume popup with a more subtle way to display the volume when the u
   <img width="640" src="assets/screenshot.png"/>
 </p>
 
-#Why and how
+# Why and how
 The iOS default popover showing the volume status that appears when the user clicks the volume rocker is a big obtrusive glossy view that covers the content shown. This library offers a way to show a more subtle indicator.  
 To make sure that the popover is not shown there are two conditions that need to be satisfied:  
 - An `AVAudioSession` needs to be active
@@ -21,7 +21,7 @@ To make sure that the popover is not shown there are two conditions that need to
 
 Once a `SubtleVolume` is added to your view, an audio session is automatically started, and the view's alpha is set to `0.0001` in the hidden state.
 
-#Getting Started
+# Getting Started
 Create an instance of `SubtleVolume` with one of its convenience initializers, and set its position (you can either set the frame or let autolayout handle it):
 ```swift
 let volume = SubtleVolume(style: .plain)
@@ -48,15 +48,15 @@ To change the volume programatically:
 _ = try? volume.setVolumeLevel(0.5)
 ```
 
-#WIP
-This is currently in development, feedback is really welcome. 
+# WIP
+This is currently in development, feedback is really welcome.
 
-#TODO
+# TODO
 - [ ] implement styles
 - [ ] provide better samples
 - [ ] add test coverage
 
-#MIT License
+# MIT License
 
 	Copyright (c) 2016 Andrea Mazzini. All rights reserved.
 
@@ -78,4 +78,3 @@ This is currently in development, feedback is really welcome.
 	CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
