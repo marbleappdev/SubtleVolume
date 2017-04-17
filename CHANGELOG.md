@@ -22,10 +22,10 @@ Updated library to Swift 3.0
 
 ## [0.1.1](https://github.com/andreamazz/SubtleVolume/releases/tag/0.1.1)
 
-###Fixed
+### Fixed
 - Removed observer on dealloc (See #6).
 
 ## [0.1.0](https://github.com/andreamazz/SubtleVolume/releases/tag/0.1.0)
 
-###Added
+### Added
 - Carthage Support
