@@ -9,6 +9,10 @@
 
 Replace the volume popup with a more subtle way to display the volume when the user changes it with the volume rocker.
 
+<a target="_blank" rel="nofollow" href="https://app.codesponsor.io/link/9Jjp1jzKpTgCg7fq5tVzNmnV/andreamazz/SubtleVolume">
+  <img alt="Sponsor" src="https://app.codesponsor.io/embed/9Jjp1jzKpTgCg7fq5tVzNmnV/andreamazz/SubtleVolume.svg" />
+</a>
+
 <p align="center">
   <img width="640" src="assets/screenshot.png"/>
 </p>
@@ -58,7 +62,7 @@ This is currently in development, feedback is really welcome.
 
 # MIT License
 
-	Copyright (c) 2016 Andrea Mazzini. All rights reserved.
+	Copyright (c) 2017 Andrea Mazzini. All rights reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining a
 	copy of this software and associated documentation files (the "Software"),
