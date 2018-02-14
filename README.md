@@ -25,7 +25,7 @@ Once a `SubtleVolume` is added to your view, an audio session is automatically s
 Create an instance of `SubtleVolume` with one of its convenience initializers, and set its position (you can either set the frame or let autolayout handle it):
 ```swift
 let volume = SubtleVolume(style: .plain)
-volume.frame = CGRect(x: 0, y: 10, width: view.frame.size.width, height: 4)
+volume.frame = CGRect(x: 0, y: 10, width: UIScreen.main.bounds.width, height: 4) // or wherever you like
 ```
 
 Set the barTintColor property:
@@ -50,8 +50,8 @@ try? volume.setVolumeLevel(0.5)
 
 Or use the convenience methods:
 ```swift
-try! volume.decreaseVolume(by: 0.2, animated: true)
-try! volume.increaseVolume(by: 0.2, animated: true)
+try? volume.decreaseVolume(by: 0.2, animated: true)
+try? volume.increaseVolume(by: 0.2, animated: true)
 ```
 
 # Handle the background state
@@ -63,9 +63,6 @@ NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.
 ```
 
 SubtleVolume automatically removes the observer on deinit.
-
-# WIP
-This is currently in development, feedback is really welcome.
 
 # TODO
 - [ ] implement styles

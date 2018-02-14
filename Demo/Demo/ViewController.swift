@@ -22,7 +22,7 @@ class ViewController: UIViewController {
       volumeOrigin = additionalSafeAreaInsets.top
     }
     
-    volume.frame = CGRect(x: 0, y: volumeOrigin, width: view.frame.width, height: volumeHeight)
+    volume.frame = CGRect(x: 0, y: volumeOrigin, width: UIScreen.main.bounds.width, height: volumeHeight)
     volume.barTintColor = .white
     volume.barBackgroundColor = UIColor.white.withAlphaComponent(0.3)
     volume.animation = .fadeIn
