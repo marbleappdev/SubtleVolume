@@ -16,7 +16,13 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    volume.frame = CGRect(x: 0, y: 20, width: view.frame.width, height: 4)
+    let volumeHeight: CGFloat = 4
+    var volumeOrigin: CGFloat = UIApplication.shared.statusBarFrame.height - volumeHeight
+    if #available(iOS 11.0, *) {
+      volumeOrigin = additionalSafeAreaInsets.top - volumeHeight
+    }
+    
+    volume.frame = CGRect(x: 0, y: volumeOrigin, width: view.frame.width, height: volumeHeight)
     volume.barTintColor = .white
     volume.barBackgroundColor = UIColor.white.withAlphaComponent(0.3)
     volume.animation = .fadeIn
