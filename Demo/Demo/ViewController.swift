@@ -17,9 +17,9 @@ class ViewController: UIViewController {
     super.viewDidLoad()
 
     let volumeHeight: CGFloat = 4
-    var volumeOrigin: CGFloat = UIApplication.shared.statusBarFrame.height - volumeHeight
+    var volumeOrigin: CGFloat = UIApplication.shared.statusBarFrame.height
     if #available(iOS 11.0, *) {
-      volumeOrigin = additionalSafeAreaInsets.top - volumeHeight
+      volumeOrigin = additionalSafeAreaInsets.top
     }
     
     volume.frame = CGRect(x: 0, y: volumeOrigin, width: view.frame.width, height: volumeHeight)
