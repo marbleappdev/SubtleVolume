@@ -4,7 +4,7 @@
 
 [![CocoaPods](https://cocoapod-badges.herokuapp.com/v/SubtleVolume/badge.svg)](http://cocoapods.org/?q=subtlevolume)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-![Swift 3.0](https://img.shields.io/badge/swift-3.0-orange.svg)
+![Swift 4.0](https://img.shields.io/badge/swift-3.0-orange.svg)
 [![codebeat](https://codebeat.co/badges/4bc9d591-39a9-4f3f-a6cd-775c68568368)](https://codebeat.co/projects/github-com-andreamazz-subtlevolume)
 
 Replace the volume popup with a more subtle way to display the volume when the user changes it with the volume rocker.
@@ -43,7 +43,7 @@ Add the view to your hierarchy:
 view.addSubview(volume)
 ```
 
-To change the volume programatically:
+To change the volume programmatically:
 ```swift
 _ = try? volume.setVolumeLevel(0.5)
 ```
@@ -58,7 +58,7 @@ This is currently in development, feedback is really welcome.
 
 # MIT License
 
-	Copyright (c) 2017 Andrea Mazzini. All rights reserved.
+	Copyright (c) 2017-2018 Andrea Mazzini. All rights reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining a
 	copy of this software and associated documentation files (the "Software"),
