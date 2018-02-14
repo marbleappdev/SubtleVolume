@@ -24,10 +24,6 @@ class ViewController: UIViewController {
     
     NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.resume), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
   }
-  
-  @objc func handleActiveState() {
-    volume.resume()
-  }
 
   @IBAction func minusAction() {
     try! volume.decreaseVolume(animated: true)
