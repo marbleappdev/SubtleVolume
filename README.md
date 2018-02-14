@@ -62,6 +62,8 @@ Once your app goes in background, you'll need to resume the session when it beco
 NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.resume), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
 ```
 
+SubtleVolume automatically removes the observer on deinit.
+
 # WIP
 This is currently in development, feedback is really welcome.
 
