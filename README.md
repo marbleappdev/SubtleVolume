@@ -69,7 +69,6 @@ This is currently in development, feedback is really welcome.
 
 # TODO
 - [ ] implement styles
-- [ ] provide better samples
 - [ ] add test coverage
 
 # MIT License
