@@ -21,6 +21,20 @@ class ViewController: UIViewController {
     volume.barBackgroundColor = UIColor.white.withAlphaComponent(0.3)
     volume.animation = .fadeIn
     view.addSubview(volume)
+    
+    NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.resume), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+  }
+  
+  @objc func handleActiveState() {
+    volume.resume()
   }
 
+  @IBAction func minusAction() {
+    try! volume.decreaseVolume(animated: true)
+  }
+
+  @IBAction func plusAction() {
+    try! volume.setVolumeLevel(volume.volumeLevel + 0.05, animated: true)
+  }
+  
 }

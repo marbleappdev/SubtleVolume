@@ -45,7 +45,21 @@ view.addSubview(volume)
 
 To change the volume programmatically:
 ```swift
-_ = try? volume.setVolumeLevel(0.5)
+try? volume.setVolumeLevel(0.5)
+```
+
+Or use the convenience methods:
+```swift
+try! volume.decreaseVolume(by: 0.2, animated: true)
+try! volume.increaseVolume(by: 0.2, animated: true)
+```
+
+# Handle the background state
+
+Once your app goes in background, you'll need to resume the session when it becomes active:
+
+```swift
+NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.resume), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
 ```
 
 # WIP

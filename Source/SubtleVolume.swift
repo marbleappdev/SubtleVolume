@@ -18,7 +18,7 @@ import AVFoundation
  - Dashes: A bar divided in dashes
  - Dots: A bar composed by a line of dots
  */
-public enum SubtleVolumeStyle {
+@objc public enum SubtleVolumeStyle: Int {
   case plain
   case roundedLine
   case dashes
@@ -32,7 +32,7 @@ public enum SubtleVolumeStyle {
  - SlideDown: The indicator fades in/out and slides from/to the top into position
  - FadeIn: The indicator fades in and out
  */
-public enum SubtleVolumeAnimation {
+@objc public enum SubtleVolumeAnimation: Int {
   case none
   case slideDown
   case fadeIn
@@ -52,14 +52,14 @@ public enum SubtleVolumeError: Error {
  Notifies the delegate when a change is about to happen (before the entry animation)
  and when a change occurred (and the exit animation is complete)
  */
-public protocol SubtleVolumeDelegate {
+@objc public protocol SubtleVolumeDelegate {
   /**
    The volume is about to change. This is fired before performing any entry animation
 
    - parameter subtleVolume: The current instance of `SubtleVolume`
    - parameter value: The value of the volume (between 0 an 1.0)
    */
-  func subtleVolume(_ subtleVolume: SubtleVolume, willChange value: Float)
+  @objc func subtleVolume(_ subtleVolume: SubtleVolume, willChange value: Double)
 
   /**
    The volume did change. This is fired after the exit animation is done
@@ -67,14 +67,14 @@ public protocol SubtleVolumeDelegate {
    - parameter subtleVolume: The current instance of `SubtleVolume`
    - parameter value: The value of the volume (between 0 an 1.0)
    */
-  func subtleVolume(_ subtleVolume: SubtleVolume, didChange value: Float)
+  @objc func subtleVolume(_ subtleVolume: SubtleVolume, didChange value: Double)
 }
 
 /**
  Replace the system volume popup with a more subtle way to display the volume 
  when the user changes it with the volume rocker.
 */
-open class SubtleVolume: UIView {
+@objc open class SubtleVolume: UIView {
 
   /**
    The style of the volume indicator
@@ -107,24 +107,25 @@ open class SubtleVolume: UIView {
 
   fileprivate let volume = MPVolumeView(frame: CGRect.zero)
   fileprivate let overlay = UIView()
-  public fileprivate(set) var volumeLevel = Float(0)
+  public fileprivate(set) var volumeLevel = Double(0)
   fileprivate let AVAudioSessionOutputVolumeKey = "outputVolume"
+  open static let DefaultVolumeStep: Double = 0.05
 
-  convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
+  @objc convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
     self.init(frame: frame)
     self.style = style
   }
 
-  convenience public init(style: SubtleVolumeStyle) {
+  @objc convenience public init(style: SubtleVolumeStyle) {
     self.init(style: style, frame: CGRect.zero)
   }
 
-  required public init?(coder aDecoder: NSCoder) {
+  @objc required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     setup()
   }
 
-  required public override init(frame: CGRect) {
+  @objc required public override init(frame: CGRect) {
     super.init(frame: frame)
     setup()
   }
@@ -133,13 +134,30 @@ open class SubtleVolume: UIView {
     fatalError("Please use the convenience initializers instead")
   }
 
+  
+  /// Increase the volume by a given step
+  ///
+  /// - Parameter delta: the volume increase. The volume goes from 0 to 1, delta must be a Double in that range
+  /// - Throws: `SubtleVolumeError.unableToChangeVolumeLevel`
+  @objc public func increseVolume(by step: Double = DefaultVolumeStep, animated: Bool = false) throws {
+    try setVolumeLevel(volumeLevel + step, animated: animated)
+  }
+  
+  /// Increase the volume by a given step
+  ///
+  /// - Parameter delta: the volume increase. The volume goes from 0 to 1, delta must be a Double in that range
+  /// - Throws: `SubtleVolumeError.unableToChangeVolumeLevel`
+  @objc public func decreaseVolume(by step: Double = DefaultVolumeStep, animated: Bool = false) throws {
+    try setVolumeLevel(volumeLevel - step, animated: animated)
+  }
+  
   /**
    Programatically set the volume level.
 
    - parameter volumeLevel: The new level of volume (between 0 an 1.0)
    - parameter animated: Indicating whether the change should be animated
    */
-  public func setVolumeLevel(_ volumeLevel: Float, animated: Bool = false) throws {
+  @objc public func setVolumeLevel(_ volumeLevel: Double, animated: Bool = false) throws {
     guard let slider = volume.subviews.flatMap({ $0 as? UISlider }).first else {
       throw SubtleVolumeError.unableToChangeVolumeLevel
     }
@@ -155,16 +173,23 @@ open class SubtleVolume: UIView {
     }
 
     // Trick iOS into thinking that slider value has changed
-    slider.value = max(0, min(1, volumeLevel))
+    slider.value = max(0, min(1, Float(volumeLevel)))
   }
 
-  fileprivate func setup() {
+  
+  /// Resume audio session. Call this once the app becomes active after being pushed in background
+  @objc public func resume() {
     do {
       try AVAudioSession.sharedInstance().setActive(true)
     } catch {
       print("Unable to initialize AVAudioSession")
+      return
     }
-    updateVolume(AVAudioSession.sharedInstance().outputVolume, animated: false)
+  }
+  
+  fileprivate func setup() {
+    resume()
+    updateVolume(Double(AVAudioSession.sharedInstance().outputVolume), animated: false)
     AVAudioSession.sharedInstance().addObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, options: .new, context: nil)
 
     backgroundColor = .clear
@@ -187,7 +212,7 @@ open class SubtleVolume: UIView {
     overlay.frame = CGRect(x: 0, y: 0, width: frame.size.width * CGFloat(volumeLevel), height: frame.size.height)
   }
 
-  fileprivate func updateVolume(_ value: Float, animated: Bool) {
+  fileprivate func updateVolume(_ value: Double, animated: Bool) {
     delegate?.subtleVolume(self, willChange: value)
     volumeLevel = value
 
@@ -226,11 +251,12 @@ open class SubtleVolume: UIView {
   open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     guard let change = change, let value = change[.newKey] as? Float , keyPath == AVAudioSessionOutputVolumeKey else { return }
 
-    updateVolume(value, animated: true)
+    updateVolume(Double(value), animated: true)
   }
 
   deinit {
     AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, context: nil)
+    NotificationCenter.default.removeObserver(self)
   }
 
 }

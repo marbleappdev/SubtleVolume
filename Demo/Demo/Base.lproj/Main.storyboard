@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,17 +21,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Pz-h9-EDV">
-                                <rect key="frame" x="113.5" y="218.5" width="148" height="50.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="Xh5-3q-f28">
+                                <rect key="frame" x="27.5" y="163.5" width="320" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="RnI-K5-K9n"/>
+                                    <constraint firstAttribute="height" constant="240" id="Tdv-U9-KbA"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qp7-an-NDd">
+                                <rect key="frame" x="115.5" y="423.5" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="1Ih-hC-9rl"/>
+                                    <constraint firstAttribute="height" constant="44" id="KM4-7l-B5B"/>
+                                </constraints>
+                                <state key="normal" image="minus"/>
+                                <connections>
+                                    <action selector="minusAction" destination="BYZ-38-t0r" eventType="touchUpInside" id="6QP-YG-DHW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ExH-tj-SsO">
+                                <rect key="frame" x="215.5" y="423" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="1Ex-lw-ysb"/>
+                                    <constraint firstAttribute="width" constant="44" id="lMP-bm-gDf"/>
+                                </constraints>
+                                <state key="normal" image="plus"/>
+                                <connections>
+                                    <action selector="plusAction" destination="BYZ-38-t0r" eventType="touchUpInside" id="3bO-kg-fRG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.16862745098039217" green="0.31372549019607843" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="5Pz-h9-EDV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-90" id="0Df-Ew-UfF"/>
-                            <constraint firstItem="5Pz-h9-EDV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hd4-kA-Nds"/>
+                            <constraint firstItem="qp7-an-NDd" firstAttribute="top" secondItem="Xh5-3q-f28" secondAttribute="bottom" constant="20" id="0YG-y3-Q6R"/>
+                            <constraint firstItem="Xh5-3q-f28" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-50" id="HjB-gJ-ikP"/>
+                            <constraint firstItem="ExH-tj-SsO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="50" id="MbG-Nc-ee9"/>
+                            <constraint firstItem="ExH-tj-SsO" firstAttribute="top" secondItem="Xh5-3q-f28" secondAttribute="bottom" constant="20" id="WpV-Pg-iba"/>
+                            <constraint firstItem="qp7-an-NDd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-50" id="atp-kT-DWd"/>
+                            <constraint firstItem="Xh5-3q-f28" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dGh-Cr-5fp"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -39,4 +66,9 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo" width="640" height="480"/>
+        <image name="minus" width="80" height="80"/>
+        <image name="plus" width="80" height="80"/>
+    </resources>
 </document>
