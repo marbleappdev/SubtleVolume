@@ -181,7 +181,6 @@ public enum SubtleVolumeError: Error {
       updateVolume()
     }
   }
-
   
   /// Resume audio session. Call this once the app becomes active after being pushed in background
   @objc public func resume() {
