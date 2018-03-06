@@ -161,19 +161,25 @@ public enum SubtleVolumeError: Error {
     guard let slider = volume.subviews.flatMap({ $0 as? UISlider }).first else {
       throw SubtleVolumeError.unableToChangeVolumeLevel
     }
+    
+    let updateVolume = {
+      // Trick iOS into thinking that slider value has changed
+      slider.value = max(0, min(1, Float(volumeLevel)))
+    }
 
     // If user opted out of animation, toggle observation for the duration of the change
     if !animated {
       AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, context: nil)
-
+      
+      updateVolume()
+      
       DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
         guard let `self` = self else { return }
         AVAudioSession.sharedInstance().addObserver(self, forKeyPath: self.AVAudioSessionOutputVolumeKey, options: .new, context: nil)
       }
+    } else {
+      updateVolume()
     }
-
-    // Trick iOS into thinking that slider value has changed
-    slider.value = max(0, min(1, Float(volumeLevel)))
   }
 
   
