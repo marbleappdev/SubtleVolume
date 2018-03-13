@@ -108,8 +108,10 @@ public enum SubtleVolumeError: Error {
   fileprivate let volume = MPVolumeView(frame: CGRect.zero)
   fileprivate let overlay = UIView()
   public fileprivate(set) var volumeLevel = Double(0)
-  fileprivate let AVAudioSessionOutputVolumeKey = "outputVolume"
   open static let DefaultVolumeStep: Double = 0.05
+  
+  private var audioSessionOutputVolumeObserver: Any?
+  private var reenableOutputVolumeObservationWorkItem: DispatchWorkItem?
 
   @objc convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
     self.init(frame: frame)
@@ -169,14 +171,20 @@ public enum SubtleVolumeError: Error {
 
     // If user opted out of animation, toggle observation for the duration of the change
     if !animated {
-      AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, context: nil)
+      reenableOutputVolumeObservationWorkItem?.cancel()
+      audioSessionOutputVolumeObserver = nil
       
       updateVolume()
       
-      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
+      reenableOutputVolumeObservationWorkItem = DispatchWorkItem { [weak self] in
         guard let `self` = self else { return }
-        AVAudioSession.sharedInstance().addObserver(self, forKeyPath: self.AVAudioSessionOutputVolumeKey, options: .new, context: nil)
+        self.audioSessionOutputVolumeObserver = AVAudioSession.sharedInstance().observe(\.outputVolume) { [weak self] (audioSession, _) in
+          guard let `self` = self else { return }
+          self.updateVolume(Double(audioSession.outputVolume), animated: true)
+        }
       }
+      
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: reenableOutputVolumeObservationWorkItem!)
     } else {
       updateVolume()
     }
@@ -195,7 +203,10 @@ public enum SubtleVolumeError: Error {
   fileprivate func setup() {
     resume()
     updateVolume(Double(AVAudioSession.sharedInstance().outputVolume), animated: false)
-    AVAudioSession.sharedInstance().addObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, options: .new, context: nil)
+    self.audioSessionOutputVolumeObserver = AVAudioSession.sharedInstance().observe(\.outputVolume) { [weak self] (audioSession, _) in
+      guard let `self` = self else { return }
+      self.updateVolume(Double(audioSession.outputVolume), animated: true)
+    }
 
     backgroundColor = .clear
 
@@ -253,15 +264,7 @@ public enum SubtleVolumeError: Error {
     }
   }
 
-  open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-    guard let change = change, let value = change[.newKey] as? Float , keyPath == AVAudioSessionOutputVolumeKey else { return }
-
-    updateVolume(Double(value), animated: true)
-  }
-
   deinit {
-    AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, context: nil)
     NotificationCenter.default.removeObserver(self)
   }
-
 }
