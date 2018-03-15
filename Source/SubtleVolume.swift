@@ -111,7 +111,6 @@ public enum SubtleVolumeError: Error {
   open static let DefaultVolumeStep: Double = 0.05
   
   private var audioSessionOutputVolumeObserver: Any?
-  private var reenableOutputVolumeObservationWorkItem: DispatchWorkItem?
 
   @objc convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
     self.init(frame: frame)
@@ -171,20 +170,17 @@ public enum SubtleVolumeError: Error {
 
     // If user opted out of animation, toggle observation for the duration of the change
     if !animated {
-      reenableOutputVolumeObservationWorkItem?.cancel()
       audioSessionOutputVolumeObserver = nil
       
       updateVolume()
       
-      reenableOutputVolumeObservationWorkItem = DispatchWorkItem { [weak self] in
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
         guard let `self` = self else { return }
         self.audioSessionOutputVolumeObserver = AVAudioSession.sharedInstance().observe(\.outputVolume) { [weak self] (audioSession, _) in
           guard let `self` = self else { return }
           self.updateVolume(Double(audioSession.outputVolume), animated: true)
         }
       }
-      
-      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: reenableOutputVolumeObservationWorkItem!)
     } else {
       updateVolume()
     }
