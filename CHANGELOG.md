@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 `SubtleVolume` adheres to [Semantic Versioning](http://semver.org/).
 
-- `0.5.x` Releases - [0.5.0](#050) | [0.5.1](#051)   
+- `0.5.x` Releases - [0.5.0](#050) | [0.5.1](#051) | [0.5.2](#052)  
 - `0.4.x` Releases - [0.4.0](#040)  
 - `0.3.x` Releases - [0.3.0](#030)  
 - `0.2.x` Releases - [0.2.0](#020) | [0.2.1](#021)  
@@ -10,7 +10,11 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [0.5.1](https://github.com/andreamazz/SubtleVolume/releases/tag/0.5.0)
+## [0.5.2](https://github.com/andreamazz/SubtleVolume/releases/tag/0.5.2)
+
+- Merged #17  
+
+## [0.5.1](https://github.com/andreamazz/SubtleVolume/releases/tag/0.5.1)
 
 ### Fixed
 
