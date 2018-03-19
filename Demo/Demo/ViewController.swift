@@ -32,11 +32,19 @@ class ViewController: UIViewController {
   }
 
   @IBAction func minusAction() {
-    try! volume.decreaseVolume(animated: true)
+    do {
+      try volume.decreaseVolume(animated: true)
+    } catch {
+      print("The demo must run on a real device, not the simulator")
+    }
   }
 
   @IBAction func plusAction() {
-    try! volume.setVolumeLevel(volume.volumeLevel + 0.05, animated: true)
+    do {
+      try volume.setVolumeLevel(volume.volumeLevel + 0.05, animated: true)
+    } catch {
+      print("The demo must run on a real device, not the simulator")
+    }
   }
   
 }
