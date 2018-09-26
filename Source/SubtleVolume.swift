@@ -108,7 +108,7 @@ public enum SubtleVolumeError: Error {
   fileprivate let volume = MPVolumeView(frame: CGRect.zero)
   fileprivate let overlay = UIView()
   public fileprivate(set) var volumeLevel = Double(0)
-  open static let DefaultVolumeStep: Double = 0.05
+  public static let DefaultVolumeStep: Double = 0.05
   
   private var audioSessionOutputVolumeObserver: Any?
 
@@ -159,7 +159,7 @@ public enum SubtleVolumeError: Error {
    - parameter animated: Indicating whether the change should be animated
    */
   @objc public func setVolumeLevel(_ volumeLevel: Double, animated: Bool = false) throws {
-    guard let slider = volume.subviews.flatMap({ $0 as? UISlider }).first else {
+    guard let slider = volume.subviews.compactMap({ $0 as? UISlider }).first else {
       throw SubtleVolumeError.unableToChangeVolumeLevel
     }
     
@@ -206,7 +206,7 @@ public enum SubtleVolumeError: Error {
 
     backgroundColor = .clear
 
-    volume.setVolumeThumbImage(UIImage(), for: UIControlState())
+    volume.setVolumeThumbImage(UIImage(), for: UIControl.State())
     volume.isUserInteractionEnabled = false
     volume.alpha = 0.0001
     volume.showsRouteButton = false
