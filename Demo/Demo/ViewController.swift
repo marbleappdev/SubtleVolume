@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     volume.animation = .fadeIn
     view.addSubview(volume)
     
-    NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.resume), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.resume), name: UIApplication.didBecomeActiveNotification, object: nil)
   }
 
   @IBAction func minusAction() {
