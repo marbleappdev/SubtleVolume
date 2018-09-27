@@ -31,7 +31,7 @@ class ViewController: UIViewController {
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
 
-    if view.safeAreaInsets.top > 0 && false {
+    if view.safeAreaInsets.top > 0 {
       volume.padding = CGSize(width: 2, height: 8)
       volume.frame = CGRect(x: 16, y: 8, width: 60, height: 20)
     } else {
@@ -74,7 +74,7 @@ extension ViewController: SubtleVolumeDelegate {
   }
   
   func subtleVolume(_ subtleVolume: SubtleVolume, didChange value: Double) {
-    if !subtleVolume.isAnimating && view.safeAreaInsets.top > 0 && false {
+    if !subtleVolume.isAnimating && view.safeAreaInsets.top > 0 {
       statusBarVisible = true
       UIView.animate(withDuration: 0.1) {
         self.setNeedsStatusBarAppearanceUpdate()
@@ -83,7 +83,7 @@ extension ViewController: SubtleVolumeDelegate {
   }
   
   func subtleVolume(_ subtleVolume: SubtleVolume, willChange value: Double) {
-    if !subtleVolume.isAnimating && view.safeAreaInsets.top > 0 && false {
+    if !subtleVolume.isAnimating && view.safeAreaInsets.top > 0 {
       statusBarVisible = false
       UIView.animate(withDuration: 0.1) {
         self.setNeedsStatusBarAppearanceUpdate()

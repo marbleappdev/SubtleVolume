@@ -4,7 +4,7 @@
 
 [![CocoaPods](https://cocoapod-badges.herokuapp.com/v/SubtleVolume/badge.svg)](http://cocoapods.org/?q=subtlevolume)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-![Swift 4.0](https://img.shields.io/badge/swift-3.0-orange.svg)
+![Swift 4.2](https://img.shields.io/badge/swift-4.2-orange.svg)
 [![codebeat](https://codebeat.co/badges/4bc9d591-39a9-4f3f-a6cd-775c68568368)](https://codebeat.co/projects/github-com-andreamazz-subtlevolume)
 
 Replace the volume popup with a more subtle way to display the volume when the user changes it with the volume rocker.
@@ -54,6 +54,70 @@ try? volume.decreaseVolume(by: 0.2, animated: true)
 try? volume.increaseVolume(by: 0.2, animated: true)
 ```
 
+### Accessory image
+You can provide an accessory image that will be shown to the bar's left. See the delegate method:
+```swift
+func subtleVolume(_ subtleVolume: SubtleVolume, accessoryFor value: Double) -> UIImage? {
+  return value > 0 ? #imageLiteral(resourceName: "volume-on.pdf") : #imageLiteral(resourceName: "volume-off.pdf")
+}
+```
+
+### iPhone X(S/R) support
+Want to be fancy and show the volume bar in the notch area? Check out the demo project. The main gist is this:
+
+```swift
+class ViewController: UIViewController {
+  let volume = SubtleVolume(style: .rounded)
+  var statusBarVisible = true
+
+  // ...
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+
+    if view.safeAreaInsets.top > 0 {
+      volume.padding = CGSize(width: 2, height: 8)
+      volume.frame = CGRect(x: 16, y: 8, width: 60, height: 20)
+    } else {
+      // older phones here
+    }
+  }
+
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+  }
+
+  override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+    return .slide
+  }
+
+  override var prefersStatusBarHidden: Bool {
+    return !statusBarVisible
+  }
+}
+
+extension ViewController: SubtleVolumeDelegate {
+  func subtleVolume(_ subtleVolume: SubtleVolume, didChange value: Double) {
+    if !subtleVolume.isAnimating && view.safeAreaInsets.top > 0 {
+      statusBarVisible = true
+      UIView.animate(withDuration: 0.1) {
+        self.setNeedsStatusBarAppearanceUpdate()
+      }
+    }
+  }
+
+  func subtleVolume(_ subtleVolume: SubtleVolume, willChange value: Double) {
+    if !subtleVolume.isAnimating && view.safeAreaInsets.top > 0 {
+      statusBarVisible = false
+      UIView.animate(withDuration: 0.1) {
+        self.setNeedsStatusBarAppearanceUpdate()
+      }
+    }
+  }
+}
+```
+
+
 # Handle the background state
 
 Once your app goes in background, you'll need to resume the session when it becomes active:
@@ -64,9 +128,10 @@ NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.
 
 SubtleVolume automatically removes the observer on deinit.
 
-# TODO
-- [ ] implement styles
-- [ ] add test coverage
+# Hire us
+Written by [Andrea Mazzini](https://twitter.com/theandreamazz). We're available for freelance work, feel free to us [here](https://www.fancypixel.it/contact/).
+
+Want to support the development of [these free libraries](https://cocoapods.org/owners/734)? Buy me a coffee ☕️ via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=46FNZD4PDVNRU).  
 
 # MIT License
 

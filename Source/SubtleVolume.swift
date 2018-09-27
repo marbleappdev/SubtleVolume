@@ -114,18 +114,36 @@ public enum SubtleVolumeError: Error {
   fileprivate let overlay = UIView(frame: .zero)
   fileprivate let container = UIView(frame: .zero)
   fileprivate let accessory = UIImageView(frame: .zero)
+  
+  /// Returns the current volume. Read-only
   public fileprivate(set) var volumeLevel = Double(0)
+  
+  /// Returns the animation state. Read-only
   public fileprivate(set) var isAnimating = false
+  
+  /// Returns the default volume bump when you programmatically change the volume
   public static let DefaultVolumeStep: Double = 0.05
+  
+  /// Padding for the inner volume bar
   public var padding: CGSize = .zero
   
   private var audioSessionOutputVolumeObserver: Any?
   
+  
+  /// Initialize with a style and a frame
+  ///
+  /// - Parameters:
+  ///   - style: the SubtleVolumeStyle
+  ///   - frame: the view's frame
   @objc convenience public init(style: SubtleVolumeStyle, frame: CGRect) {
     self.init(frame: frame)
     self.style = style
   }
-  
+
+  /// Initialize with a style and a frame
+  ///
+  /// - Parameters:
+  ///   - style: the SubtleVolumeStyle
   @objc convenience public init(style: SubtleVolumeStyle) {
     self.init(style: style, frame: CGRect.zero)
   }
