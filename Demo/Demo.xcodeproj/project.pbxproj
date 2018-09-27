@@ -551,12 +551,14 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = H72GR44F4M;
 				INFOPLIST_FILE = Demo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = it.fancypixel.Demo;
 				PRODUCT_MODULE_NAME = Demo;
 				PRODUCT_NAME = SubtleVolume;
 				PROVISIONING_PROFILE = "f7168a28-8f3d-4e45-bcbd-a54a870789e7";
 				PROVISIONING_PROFILE_SPECIFIER = "General Development";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -572,6 +574,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = H72GR44F4M;
 				INFOPLIST_FILE = Demo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = it.fancypixel.Demo;
 				PRODUCT_MODULE_NAME = Demo;
