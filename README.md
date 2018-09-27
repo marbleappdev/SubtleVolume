@@ -128,7 +128,7 @@ NotificationCenter.default.addObserver(volume, selector: #selector(SubtleVolume.
 SubtleVolume automatically removes the observer on deinit.
 
 # Hire us
-Written by [Andrea Mazzini](https://twitter.com/theandreamazz). We're available for freelance work, feel free to us [here](https://www.fancypixel.it/contact/).
+Written by [Andrea Mazzini](https://twitter.com/theandreamazz). We're available for freelance work, feel free to contact us [here](https://www.fancypixel.it/contact/).
 
 Want to support the development of [these free libraries](https://cocoapods.org/owners/734)? Buy me a coffee ☕️ via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=46FNZD4PDVNRU).  
 
