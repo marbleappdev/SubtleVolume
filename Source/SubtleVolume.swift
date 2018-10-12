@@ -323,7 +323,9 @@ public enum SubtleVolumeError: Error {
       })
 
     }) { finished in
-      self.isAnimating = !finished
+      if self.isAnimating {
+        self.isAnimating = !finished
+      }
       self.delegate?.subtleVolume?(self, didChange: value)
     }
   }
