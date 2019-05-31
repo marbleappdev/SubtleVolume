@@ -4,7 +4,7 @@
 
 [![CocoaPods](https://cocoapod-badges.herokuapp.com/v/SubtleVolume/badge.svg)](http://cocoapods.org/?q=subtlevolume)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-![Swift 4.2](https://img.shields.io/badge/swift-4.2-orange.svg)
+![Swift 5.0](https://img.shields.io/badge/swift-5.0-orange.svg)
 
 Replace the volume popup with a more subtle way to display the volume when the user changes it with the volume rocker.
 
@@ -13,8 +13,8 @@ Replace the volume popup with a more subtle way to display the volume when the u
 </p>
 
 # Why and how
-The iOS default popover showing the volume status that appears when the user clicks the volume rocker is a big obtrusive glossy view that covers the content shown. This library offers a way to show a more subtle indicator.  
-To make sure that the popover is not shown there are two conditions that need to be satisfied:  
+The iOS default popover showing the volume status that appears when the user clicks the volume rocker is a big obtrusive glossy view that covers the content shown. This library offers a way to show a more subtle indicator.
+To make sure that the popover is not shown there are two conditions that need to be satisfied:
 - An `AVAudioSession` needs to be active
 - An `MPVolumeView` needs to be in the current view's hierarchy, and its alpha needs to be greater than 0
 
@@ -130,7 +130,7 @@ SubtleVolume automatically removes the observer on deinit.
 # Hire us
 Written by [Andrea Mazzini](https://twitter.com/theandreamazz). We're available for freelance work, feel free to contact us [here](https://www.fancypixel.it/contact/).
 
-Want to support the development of [these free libraries](https://cocoapods.org/owners/734)? Buy me a coffee ☕️ via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=46FNZD4PDVNRU).  
+Want to support the development of [these free libraries](https://cocoapods.org/owners/734)? Buy me a coffee ☕️ via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=46FNZD4PDVNRU).
 
 # MIT License
 

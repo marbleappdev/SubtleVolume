@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'SubtleVolume'
-  s.version = '1.0.2'
+  s.version = '1.1.0'
   s.license = 'MIT'
   s.summary = 'Replace the system volume popup with a more subtle indicator'
   s.description  = <<-DESC
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://github.com/andreamazz/SubtleVolume.git', :tag => s.version }
 
   s.ios.deployment_target = '8.0'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   s.source_files = 'Source/*.swift'
 
   s.requires_arc = true
