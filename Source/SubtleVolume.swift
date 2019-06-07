@@ -12,7 +12,7 @@ import AVFoundation
 
 /**
  The style of the volume indicator
- 
+
  - plain: A plain bar
  - rounded: A plain bar with rounded corners
  */
