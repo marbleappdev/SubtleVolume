@@ -206,7 +206,7 @@ public enum SubtleVolumeError: Error {
 
   /**
    Programatically set the volume level.
-   
+
    - parameter volumeLevel: The new level of volume (between 0 an 1.0)
    - parameter animated: Indicating whether the change should be animated
    */
@@ -282,7 +282,7 @@ public enum SubtleVolumeError: Error {
     addSubview(accessory)
     addSubview(container)
   }
-  
+
   open override func layoutSubviews() {
     super.layoutSubviews()
 
@@ -384,4 +384,3 @@ public enum SubtleVolumeError: Error {
     AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, context: nil)
   }
 }
-
