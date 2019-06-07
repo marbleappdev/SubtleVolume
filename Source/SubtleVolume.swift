@@ -95,7 +95,7 @@ public enum SubtleVolumeError: Error {
     v.showsRouteButton = false
     return v
   }()
-  private var previousSuperviewOfSharedMPVolumeView: UIView?
+  private weak var previousSuperviewOfSharedMPVolumeView: UIView?
   override open func willMove(toWindow newWindow: UIWindow?) {
     if newWindow != nil {
       previousSuperviewOfSharedMPVolumeView = SubtleVolume.sharedMPVolumeView.superview
