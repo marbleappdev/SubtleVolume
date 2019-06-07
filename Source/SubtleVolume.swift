@@ -56,7 +56,7 @@ public enum SubtleVolumeError: Error {
    - parameter value: The value of the volume (between 0 an 1.0)
    */
   @objc optional func subtleVolume(_ subtleVolume: SubtleVolume, willChange value: Double)
-  
+
   /**
    The volume did change. This is fired after the exit animation is done
 
@@ -64,7 +64,7 @@ public enum SubtleVolumeError: Error {
    - parameter value: The value of the volume (between 0 an 1.0)
    */
   @objc optional func subtleVolume(_ subtleVolume: SubtleVolume, didChange value: Double)
-  
+
   /**
    The volume did change. This is fired after the exit animation is done
 
@@ -109,7 +109,7 @@ public enum SubtleVolumeError: Error {
    The style of the volume indicator
    */
   @objc open fileprivate(set) var style = SubtleVolumeStyle.plain
-  
+
   /**
    The entry and exit animation of the indicator. The animation is triggered by the volume
    If the animation is set to `.None`, the volume indicator is always visible
@@ -125,13 +125,13 @@ public enum SubtleVolumeError: Error {
       container.backgroundColor = barBackgroundColor
     }
   }
-  
+
   @objc open var barTintColor = UIColor.white {
     didSet {
       overlay.backgroundColor = barTintColor
     }
   }
-  
+
   @objc open weak var delegate: SubtleVolumeDelegate?
   
   fileprivate let volume = SubtleVolume.sharedMPVolumeView
@@ -141,10 +141,10 @@ public enum SubtleVolumeError: Error {
   
   /// Returns the current volume. Read-only
   @objc public fileprivate(set) dynamic var volumeLevel = Double(0)
-  
+
   /// Returns the animation state. Read-only
   public fileprivate(set) var isAnimating = false
-  
+
   /// Returns the default volume bump when you programmatically change the volume
   public static let DefaultVolumeStep: Double = 0.05
   
@@ -154,7 +154,7 @@ public enum SubtleVolumeError: Error {
   private var audioSessionOutputVolumeObserver: Any?
   fileprivate let AVAudioSessionOutputVolumeKey = "outputVolume"
 
-  
+
   /// Initialize with a style and a frame
   ///
   /// - Parameters:
@@ -164,7 +164,7 @@ public enum SubtleVolumeError: Error {
     self.init(frame: frame)
     self.style = style
   }
-  
+
   /// Initialize with a style and a frame
   ///
   /// - Parameters:
@@ -172,22 +172,22 @@ public enum SubtleVolumeError: Error {
   @objc convenience public init(style: SubtleVolumeStyle) {
     self.init(style: style, frame: CGRect.zero)
   }
-  
+
   @objc required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     setup()
   }
-  
+
   @objc required public override init(frame: CGRect) {
     super.init(frame: frame)
     setup()
   }
-  
+
   required public init() {
     fatalError("Please use the convenience initializers instead")
   }
-  
-  
+
+
   /// Increase the volume by a given step
   ///
   /// - Parameter delta: the volume increase. The volume goes from 0 to 1, delta must be a Double in that range
@@ -195,7 +195,7 @@ public enum SubtleVolumeError: Error {
   @objc public func increaseVolume(by step: Double = DefaultVolumeStep, animated: Bool = false) throws {
     try setVolumeLevel(volumeLevel + step, animated: animated)
   }
-  
+
   /// Increase the volume by a given step
   ///
   /// - Parameter delta: the volume increase. The volume goes from 0 to 1, delta must be a Double in that range
@@ -203,7 +203,7 @@ public enum SubtleVolumeError: Error {
   @objc public func decreaseVolume(by step: Double = DefaultVolumeStep, animated: Bool = false) throws {
     try setVolumeLevel(volumeLevel - step, animated: animated)
   }
-  
+
   /**
    Programatically set the volume level.
    
@@ -214,7 +214,7 @@ public enum SubtleVolumeError: Error {
     guard let slider = volume.subviews.compactMap({ $0 as? UISlider }).first else {
       throw SubtleVolumeError.unableToChangeVolumeLevel
     }
-    
+
     var level = volumeLevel
     if level < 0 {
       level = 0
@@ -222,19 +222,19 @@ public enum SubtleVolumeError: Error {
     if level > 1 {
       level = 1
     }
-    
+
     let updateVolume = {
       // Trick iOS into thinking that slider value has changed
       slider.value = Float(level)
     }
-    
+
     // If user opted out of animation, toggle observation for the duration of the change
     if !animated {
       audioSessionOutputVolumeObserver = nil
       AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: self.AVAudioSessionOutputVolumeKey, context: nil)
-      
+
       updateVolume()
-      
+
       DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
         guard let `self` = self else { return }
         self.audioSessionOutputVolumeObserver = AVAudioSession.sharedInstance().observe(\.outputVolume) { [weak self] (audioSession, change) in
@@ -265,27 +265,27 @@ public enum SubtleVolumeError: Error {
       self.updateVolume(Double(audioSession.outputVolume), animated: true)
     }
     AVAudioSession.sharedInstance().addObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, options: [.old, .new], context: nil)
-    
+
     backgroundColor = .clear
     container.backgroundColor = .clear
-    
+
     volume.setVolumeThumbImage(UIImage(), for: UIControl.State())
     volume.isUserInteractionEnabled = false
     volume.alpha = 0.0001
     volume.showsRouteButton = false
-    
+
     addSubview(volume)
-    
+
     overlay.backgroundColor = .white
     container.addSubview(overlay)
-    
+
     addSubview(accessory)
     addSubview(container)
   }
   
   open override func layoutSubviews() {
     super.layoutSubviews()
-    
+
     updateSubviewsFrame()
 
     switch style {
@@ -297,12 +297,12 @@ public enum SubtleVolumeError: Error {
       overlay.layer.cornerRadius = container.frame.height / 2
     }
   }
-  
+
   fileprivate func updateVolume(_ value: Double, animated: Bool) {
     delegate?.subtleVolume?(self, willChange: value)
     let previous = volumeLevel
     volumeLevel = value
-    
+
     updateSubviewsFrame()
     overlay.frame = CGRect(x: 0, y: 0, width: container.frame.width * CGFloat(previous), height: container.frame.height)
 
@@ -312,7 +312,7 @@ public enum SubtleVolumeError: Error {
     UIView.animate(withDuration: animated ? 0.1 : 0, animations: { () -> Void in
       self.overlay.frame.size.width = self.container.frame.width * CGFloat(self.volumeLevel)
     })
-    
+
     UIView.animateKeyframes(withDuration: animated ? 2 : 0, delay: 0, options: .beginFromCurrentState, animations: { () -> Void in
       UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.2, animations: {
         switch self.animation {
@@ -324,7 +324,7 @@ public enum SubtleVolumeError: Error {
           self.transform = CGAffineTransform.identity
         }
       })
-      
+
       UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.2, animations: { () -> Void in
         switch self.animation {
         case .none: break
@@ -335,7 +335,7 @@ public enum SubtleVolumeError: Error {
           self.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
         }
       })
-      
+
     }) { finished in
       if self.isAnimating {
         self.isAnimating = !finished
@@ -343,7 +343,7 @@ public enum SubtleVolumeError: Error {
       self.delegate?.subtleVolume?(self, didChange: value)
     }
   }
-  
+
   fileprivate func updateSubviewsFrame() {
     let image = delegate?.subtleVolume?(self, accessoryFor: volumeLevel)
     accessory.image = image
@@ -356,21 +356,21 @@ public enum SubtleVolumeError: Error {
     insets.right += padding.width
     insets.bottom += padding.height
     insets.top += padding.height
-    
+
     let width = frame.size.width - insets.left - insets.right
     let height = frame.size.height - insets.top - insets.bottom
-    
+
     overlay.frame = frame
     container.frame = CGRect(x: insets.left, y: insets.top, width: width, height: height)
     overlay.frame = CGRect(x: 0, y: 0, width: container.frame.width * CGFloat(volumeLevel), height: height)
   }
-  
+
   open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     guard let change = change,
       let oldValue = change[.oldKey] as? Float,
       let newValue = change[.newKey] as? Float,
       keyPath == AVAudioSessionOutputVolumeKey else { return }
-    
+
     if newValue > oldValue {
       self.delegate?.subtleVolumeDidIncreaseVolume?(self)
     }
