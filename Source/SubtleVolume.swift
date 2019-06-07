@@ -83,7 +83,7 @@ public enum SubtleVolumeError: Error {
  when the user changes it with the volume rocker.
  */
 @objc open class SubtleVolume: UIView {
-  
+
   /**
    MPVolumeView.init blocks main thread and casues UI lag, so here we use it as a singleton
    */
@@ -138,7 +138,7 @@ public enum SubtleVolumeError: Error {
   @objc public let overlay = UIView(frame: .zero)
   @objc public let container = UIView(frame: .zero)
   @objc public let accessory = UIImageView(frame: .zero)
-  
+
   /// Returns the current volume. Read-only
   @objc public fileprivate(set) dynamic var volumeLevel = Double(0)
 
@@ -147,7 +147,7 @@ public enum SubtleVolumeError: Error {
 
   /// Returns the default volume bump when you programmatically change the volume
   public static let DefaultVolumeStep: Double = 0.05
-  
+
   /// Padding for the inner volume bar
   @objc public var padding: CGSize = .zero
 
