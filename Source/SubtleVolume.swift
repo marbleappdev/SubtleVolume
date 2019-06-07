@@ -151,7 +151,6 @@ public enum SubtleVolumeError: Error {
   /// Padding for the inner volume bar
   @objc public var padding: CGSize = .zero
 
-  private var audioSessionOutputVolumeObserver: Any?
   fileprivate let AVAudioSessionOutputVolumeKey = "outputVolume"
 
 
@@ -230,16 +229,12 @@ public enum SubtleVolumeError: Error {
 
     // If user opted out of animation, toggle observation for the duration of the change
     if !animated {
-      audioSessionOutputVolumeObserver = nil
       AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: self.AVAudioSessionOutputVolumeKey, context: nil)
 
       updateVolume()
 
       DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
         guard let `self` = self else { return }
-        self.audioSessionOutputVolumeObserver = AVAudioSession.sharedInstance().observe(\.outputVolume) { [weak self] (audioSession, change) in
-          self?.updateVolume(level, animated: true)
-        }
         AVAudioSession.sharedInstance().addObserver(self, forKeyPath: self.AVAudioSessionOutputVolumeKey, options: [.old, .new], context: nil)
       }
     } else {
@@ -260,10 +255,6 @@ public enum SubtleVolumeError: Error {
   fileprivate func setup() {
     //resume()
     updateVolume(Double(AVAudioSession.sharedInstance().outputVolume), animated: false)
-    self.audioSessionOutputVolumeObserver = AVAudioSession.sharedInstance().observe(\.outputVolume) { [weak self] (audioSession, _) in
-      guard let `self` = self else { return }
-      self.updateVolume(Double(audioSession.outputVolume), animated: true)
-    }
     AVAudioSession.sharedInstance().addObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, options: [.old, .new], context: nil)
 
     backgroundColor = .clear
@@ -377,10 +368,11 @@ public enum SubtleVolumeError: Error {
     else if newValue < oldValue {
       self.delegate?.subtleVolumeDidDecreaseVolume?(self)
     }
+    
+    updateVolume(Double(newValue), animated: true)
   }
 
   deinit {
-    NotificationCenter.default.removeObserver(self)
     AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: AVAudioSessionOutputVolumeKey, context: nil)
   }
 }
