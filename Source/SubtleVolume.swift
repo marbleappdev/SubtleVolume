@@ -73,7 +73,7 @@ public enum SubtleVolumeError: Error {
    - returns: An optional UIImage displayed near the bar
    */
   @objc optional func subtleVolume(_ subtleVolume: SubtleVolume, accessoryFor value: Double) -> UIImage?
-  
+
   @objc optional func subtleVolumeDidIncreaseVolume(_ subtleVolume: SubtleVolume)
   @objc optional func subtleVolumeDidDecreaseVolume(_ subtleVolume: SubtleVolume)
 }
