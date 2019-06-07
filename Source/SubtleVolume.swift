@@ -23,7 +23,7 @@ import AVFoundation
 
 /**
  The entry and exit animation of the volume indicator
- 
+
  - None: The indicator is always visible
  - SlideDown: The indicator fades in/out and slides from/to the top into position
  - FadeIn: The indicator fades in and out
@@ -36,7 +36,7 @@ import AVFoundation
 
 /**
  Errors being thrown by `SubtleError`.
- 
+
  - unableToChangeVolumeLevel: `SubtleVolume` was unable to change audio level
  */
 public enum SubtleVolumeError: Error {
@@ -51,7 +51,7 @@ public enum SubtleVolumeError: Error {
 @objc public protocol SubtleVolumeDelegate {
   /**
    The volume is about to change. This is fired before performing any entry animation
-   
+
    - parameter subtleVolume: The current instance of `SubtleVolume`
    - parameter value: The value of the volume (between 0 an 1.0)
    */
@@ -59,7 +59,7 @@ public enum SubtleVolumeError: Error {
   
   /**
    The volume did change. This is fired after the exit animation is done
-   
+
    - parameter subtleVolume: The current instance of `SubtleVolume`
    - parameter value: The value of the volume (between 0 an 1.0)
    */
@@ -67,7 +67,7 @@ public enum SubtleVolumeError: Error {
   
   /**
    The volume did change. This is fired after the exit animation is done
-   
+
    - parameter subtleVolume: The current instance of `SubtleVolume`
    - parameter value: The value of the volume (between 0 an 1.0)
    - returns: An optional UIImage displayed near the bar
